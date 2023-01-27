@@ -1,0 +1,10 @@
+install.packages(
+  c("shiny", 
+    "tidyverse", 
+    "rvest",
+    "leaflet",
+    "DT",
+    "highcharter",
+    "plotly",
+    "datos")
+)

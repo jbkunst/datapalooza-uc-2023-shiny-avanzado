@@ -1,6 +1,6 @@
 ---
 title: "<span style='color:white'>Shiny Avanzado</span>"
-author: "<span style='color:white'>Joshua Kunst Fuentes @jbkunst</span>"
+author: "<b style='color:white'>Joshua Kunst Fuentes @jbkunst</b>"
 format:
   revealjs:
     theme: [default, css/custom.scss]
@@ -17,37 +17,80 @@ editor_options:
   chunk_output_type: console
 ---
 
-# Bienvenidos! { .bckgrnd }
+# Bienvenidos! { .bckgrnd background-image="imgs/nick-fewings-XqOBKnxDSfE-unsplash.jpg" }
 
 ## Antes de Partir
 
-Te
+- Respositorio: [https://github.com/jbkunst/datapalooza-uc-2023-shiny-avanzado](https://github.com/jbkunst/datapalooza-uc-2023-shiny-avanzado), para clonarlo en posit.cloud
+
+- Presentación: [https://jkunst.com/datapalooza-uc-2023-shiny-avanzado/](https://jkunst.com/datapalooza-uc-2023-shiny-avanzado/)
+
+- Un repaso: [https://jkunst.com/shiny-visualizacion-de-datos-con-R/clase-01.html](https://jkunst.com/shiny-visualizacion-de-datos-con-R/clase-01.html)
 
 ## Lo que veremos
-
 
 **Reactividad**: 
 
   Expresiones reactivas, _Observers_ y Eventos
+  
+. . .  
 
 **Módulos**: 
 
   Definición, utilidades, patrón de uso
+  
+. . .  
 
 **htmlwidgets**:
 
   Proxies y eventos
+  
+. . .  
 
 **HTML, CSS, JS**: 
 
   Introduccion, definiciones, etc.
 
+## Dinámica
 
-# Reactividad
+- Definiciones y motivaciones
+- Revisión de ejemplos
+- Ejercicios! 
+
+## Paquete que utilizaremos
+
+```{r, eval=FALSE, echo=TRUE}
+install.packages(
+  c("shiny", 
+    "tidyverse", 
+    "rvest",
+    "leaflet",
+    "DT",
+    "highcharter",
+    "plotly",
+    "datos")
+  )
+```
+
+
+# Reactividad{ .bckgrnd background-image="imgs/reactivity-graph-00.png"}
 
 ## Reactividad
 
-asdas
+En una aplicación shiny, la lógica del _server_ se expresa en programación reactiva.
+
+. . .
+
+No tenemos que darle un comando a una aplicación shiny para que se actualice. Reacionará por sí solo.
+
+. . .
+
+Si un `input` cambia, automáticamente actualizará `outputs` (expresiones reactivas u `observer`s) que dependan de el.
+
+
+::: aside
+Muchos más detalles en [https://rstudio.github.io/reactlog/articles/reactlog.html](https://rstudio.github.io/reactlog/articles/reactlog.html).
+:::
 
 ## Tipos de elementos 
 
@@ -66,13 +109,10 @@ cambia.
 
 ## Similitudes y Diferencias entre reactivos y observers.
 
-### Similitudes:
+**Similitudes**: Se gatillan por el cambio de alguna variable o expresión reactiva.
 
-Se gatillan por el cambio de alguna variable o expresión reactiva.
+**Diferencias**: Expresiones reactivas retornan valores, los `observer`s no lo hacen.
 
-### Diferencias:
-
-Expresiones reactivas retornan valores, los `observer`s no lo hacen.
 
 ## Patrón de uso
 
@@ -136,7 +176,20 @@ dir("apps/reactividad/", full.names = TRUE) |>
  
 ## Módulos
 
-Hola
+- Un módulo es un componente autocontenido y compuesto de una aplicación Shiny
+    - Autocontenido como una función
+    - Se pueden combinar para hacer una aplicación
+    
+. . .
+
+- Tienen su propia interfaz de usuario y servidor (además de la interfaz de usuario y servidor de la **aplicación**)
+
+. . .
+
+- Útil para la reutilización
+    - En lugar de copiar y pegar código, puede usar módulos.
+    - Se pueden empaquetar en paquetes
+    - Esencial para administrar la complejidad del código en aplicaciones más grandes
 
 
 ## Patrón de uso en UI: Antes {auto-animate=true}
@@ -215,13 +268,14 @@ server <- function(input, output, session) {
 
 Al cambiar a este flujo/framework de programación de aplicaciones shiny:
 
+<br/>
 Módulo UI:
-
 El cambio en `id`s es explícito. Cambiar unInput(`"id")` por `unInput(NS("id"))`.
 Se puede separar para tener distintas ubicaciones (ver ejemplos).
 
-Modulo Server:
+<br/>
 
+Modulo Server:
 La funcionalidad de implícita, uno _copia_ y _pega_, y el módulo hace
 el intercambio correspondiente.
 
@@ -253,13 +307,44 @@ dir("apps/modulos/", full.names = TRUE) |>
   purrr::walk(~ {cat(.x); cat("\n")})
 ```
 
+## Ejercicio
 
+1. Considerando el data set `iris`, genere una aplicación que tenga un selector
+que liste las variables continuas y dado una variable realice un histograma.
+
+1. Ahora transfórmelo en módulo y agregue tres instancias de dicho módulo con diferentes
+tablas (`mtcars`, `diamonds`, `mtautos`, `diamantes`).
+
+1. Extienda el módulo para incluir un output que muestre el `summary` de la variable
+seleccionada.
+
+1. Ideas? Preguntas?
 
 # HTMLWidgets { .bckgrnd background-image="imgs/stephen-dawson-qwtCeJ5cLYs-unsplash.jpg"}
 
 ## HTMLWidgets
 
-# HTML, CSS, JS { .bckgrnd background-image="imgs/valery-sysoev-p9OkL4yW3C8-unsplash.jpg"}  
+Usar librerías de visualización Javascript en R.
+
+...
+
+Los widgets se pueden incluir en documentos RMarkdown y aplicaciones web Shiny
+
+...
+
+HTMLwidget pude ser una parte 
+
+## HTMLWidgets, eso es todo?
+
+No!
+
+...
+<br>
+
+Los widg
+
+
+
 
 ## Revisar las siguientes apps
 
@@ -269,25 +354,39 @@ dir("apps/htmlwidgets/", full.names = TRUE) |>
   purrr::walk(~ {cat(.x); cat("\n")})
 ```
 
+## Ejercicio
+
+1. Reutilice alguna app de la carpeta `htmlwidgets` para que al hacer click
+sobre un sismo, se escriban todos la información del sismo en la ui.
+
+1. Cree una app que genere un scatter plot de acuerdo a 2 inputs para indicar
+variable x, variable y. Utilice un proxy para no _rebibujar_ el gráfico.
+
+1. Para la aplicación anterior, conviértala en módulo.
+
+1. Ideas? Preguntas?
+
+# HTML, CSS, JS { .bckgrnd background-image="imgs/valery-sysoev-p9OkL4yW3C8-unsplash.jpg"}  
+
 ##  HTML, CSS, JS
 
 Hola
-
 . . .
-
 Chao
 
 
-# Gracias!
+# Eso! gracias un gustazo!
 
-## Gracias a
+## Créditos imágenes
 
 Foto de <a href="https://unsplash.com/@dawson2406?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Stephen Dawson</a> en <a href="https://unsplash.com/es/fotos/qwtCeJ5cLYs?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
-
 
 Foto de <a href="https://unsplash.com/@guibolduc?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Guillaume Bolduc</a> en <a href="https://unsplash.com/es/fotos/uBe2mknURG4?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
 
 
 Foto de <a href="https://unsplash.com/@valerysysoev?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Valery Sysoev</a> en <a href="https://unsplash.com/es/fotos/p9OkL4yW3C8?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+  
+Foto de <a href="https://unsplash.com/@jannerboy62?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Nick Fewings</a> en <a href="https://unsplash.com/es/fotos/XqOBKnxDSfE?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+  
   
   

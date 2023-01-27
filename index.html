@@ -394,41 +394,83 @@
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-<span style="color:white">Joshua Kunst Fuentes <span class="citation" data-cites="jbkunst">@jbkunst</span></span> 
+<b style="color:white">Joshua Kunst Fuentes <span class="citation" data-cites="jbkunst">@jbkunst</span></b> 
 </div>
 </div>
 </div>
 
 </section>
 <section>
-<section id="bienvenidos" class="title-slide slide level1 bckgrnd center">
+<section id="bienvenidos" class="title-slide slide level1 bckgrnd center" data-background-image="imgs/nick-fewings-XqOBKnxDSfE-unsplash.jpg">
 <h1>Bienvenidos!</h1>
 
 </section>
 <section id="antes-de-partir" class="slide level2">
 <h2>Antes de Partir</h2>
-<p>Te</p>
+<ul>
+<li><p>Respositorio: <a href="https://github.com/jbkunst/datapalooza-uc-2023-shiny-avanzado">https://github.com/jbkunst/datapalooza-uc-2023-shiny-avanzado</a>, para clonarlo en posit.cloud</p></li>
+<li><p>Presentación: <a href="https://jkunst.com/datapalooza-uc-2023-shiny-avanzado/">https://jkunst.com/datapalooza-uc-2023-shiny-avanzado/</a></p></li>
+<li><p>Un repaso: <a href="https://jkunst.com/shiny-visualizacion-de-datos-con-R/clase-01.html">https://jkunst.com/shiny-visualizacion-de-datos-con-R/clase-01.html</a></p></li>
+</ul>
 </section>
 <section id="lo-que-veremos" class="slide level2">
 <h2>Lo que veremos</h2>
 <p><strong>Reactividad</strong>:</p>
 <p>Expresiones reactivas, <em>Observers</em> y Eventos</p>
+<div class="fragment">
 <p><strong>Módulos</strong>:</p>
 <p>Definición, utilidades, patrón de uso</p>
+</div>
+<div class="fragment">
 <p><strong>htmlwidgets</strong>:</p>
 <p>Proxies y eventos</p>
+</div>
+<div class="fragment">
 <p><strong>HTML, CSS, JS</strong>:</p>
 <p>Introduccion, definiciones, etc.</p>
+</div>
+</section>
+<section id="dinámica" class="slide level2">
+<h2>Dinámica</h2>
+<ul>
+<li>Definiciones y motivaciones</li>
+<li>Revisión de ejemplos</li>
+<li>Ejercicios!</li>
+</ul>
+</section>
+<section id="paquete-que-utilizaremos" class="slide level2">
+<h2>Paquete que utilizaremos</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">install.packages</span>(</span>
+<span id="cb1-2"><a href="#cb1-2"></a>  <span class="fu">c</span>(<span class="st">"shiny"</span>, </span>
+<span id="cb1-3"><a href="#cb1-3"></a>    <span class="st">"tidyverse"</span>, </span>
+<span id="cb1-4"><a href="#cb1-4"></a>    <span class="st">"rvest"</span>,</span>
+<span id="cb1-5"><a href="#cb1-5"></a>    <span class="st">"leaflet"</span>,</span>
+<span id="cb1-6"><a href="#cb1-6"></a>    <span class="st">"DT"</span>,</span>
+<span id="cb1-7"><a href="#cb1-7"></a>    <span class="st">"highcharter"</span>,</span>
+<span id="cb1-8"><a href="#cb1-8"></a>    <span class="st">"plotly"</span>,</span>
+<span id="cb1-9"><a href="#cb1-9"></a>    <span class="st">"datos"</span>)</span>
+<span id="cb1-10"><a href="#cb1-10"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section></section>
 <section>
-<section id="reactividad" class="title-slide slide level1 center">
+<section id="reactividad" class="title-slide slide level1 bckgrnd center" data-background-image="imgs/reactivity-graph-00.png">
 <h1>Reactividad</h1>
 
 </section>
 <section id="reactividad-1" class="slide level2">
 <h2>Reactividad</h2>
-<p>asdas</p>
-</section>
+<p>En una aplicación shiny, la lógica del <em>server</em> se expresa en programación reactiva.</p>
+<div class="fragment">
+<p>No tenemos que darle un comando a una aplicación shiny para que se actualice. Reacionará por sí solo.</p>
+</div>
+<div class="fragment">
+<p>Si un <code>input</code> cambia, automáticamente actualizará <code>outputs</code> (expresiones reactivas u <code>observer</code>s) que dependan de el.</p>
+
+</div>
+<aside><div>
+<p>Muchos más detalles en <a href="https://rstudio.github.io/reactlog/articles/reactlog.html">https://rstudio.github.io/reactlog/articles/reactlog.html</a>.</p>
+</div></aside></section>
 <section id="tipos-de-elementos" class="slide level2">
 <h2>Tipos de elementos</h2>
 <p>De manera conceptual una <em>expresion reactiva</em> es una expresión que cambiará en el tiempo.</p>
@@ -441,53 +483,51 @@
 </section>
 <section id="similitudes-y-diferencias-entre-reactivos-y-observers." class="slide level2">
 <h2>Similitudes y Diferencias entre reactivos y observers.</h2>
-<h3 id="similitudes">Similitudes:</h3>
-<p>Se gatillan por el cambio de alguna variable o expresión reactiva.</p>
-<h3 id="diferencias">Diferencias:</h3>
-<p>Expresiones reactivas retornan valores, los <code>observer</code>s no lo hacen.</p>
+<p><strong>Similitudes</strong>: Se gatillan por el cambio de alguna variable o expresión reactiva.</p>
+<p><strong>Diferencias</strong>: Expresiones reactivas retornan valores, los <code>observer</code>s no lo hacen.</p>
 </section>
 <section id="patrón-de-uso" class="slide level2">
 <h2>Patrón de uso</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output) {</span>
-<span id="cb1-2"><a href="#cb1-2"></a>  </span>
-<span id="cb1-3"><a href="#cb1-3"></a>  variable_reactiva <span class="ot">&lt;-</span> <span class="fu">reactive</span>({ </span>
-<span id="cb1-4"><a href="#cb1-4"></a>    <span class="co"># calcular y rentornar algo, como una función.</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a>    ... </span>
-<span id="cb1-6"><a href="#cb1-6"></a>  })</span>
-<span id="cb1-7"><a href="#cb1-7"></a></span>
-<span id="cb1-8"><a href="#cb1-8"></a>  variable_reactiva <span class="ot">&lt;-</span> <span class="fu">reactiveEvent</span>(expresion_reactiva, {</span>
-<span id="cb1-9"><a href="#cb1-9"></a>    <span class="co"># calcular y rentornar algo, si cambia `expresion_reactiva`.</span></span>
-<span id="cb1-10"><a href="#cb1-10"></a>    ... </span>
-<span id="cb1-11"><a href="#cb1-11"></a>  })</span>
-<span id="cb1-12"><a href="#cb1-12"></a>  </span>
-<span id="cb1-13"><a href="#cb1-13"></a>  <span class="fu">observe</span>({ </span>
-<span id="cb1-14"><a href="#cb1-14"></a>    <span class="co"># hacer algo si cambia algo que depende esta expresión.</span></span>
-<span id="cb1-15"><a href="#cb1-15"></a>    ... </span>
-<span id="cb1-16"><a href="#cb1-16"></a>  })</span>
-<span id="cb1-17"><a href="#cb1-17"></a>  </span>
-<span id="cb1-18"><a href="#cb1-18"></a>  <span class="fu">observeEvent</span>(expresion_reactiva, { </span>
-<span id="cb1-19"><a href="#cb1-19"></a>    <span class="co"># hacer algo si cambia `expresion_reactiva`.</span></span>
-<span id="cb1-20"><a href="#cb1-20"></a>    ... </span>
-<span id="cb1-21"><a href="#cb1-21"></a>  }) </span>
-<span id="cb1-22"><a href="#cb1-22"></a>  </span>
-<span id="cb1-23"><a href="#cb1-23"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output) {</span>
+<span id="cb2-2"><a href="#cb2-2"></a>  </span>
+<span id="cb2-3"><a href="#cb2-3"></a>  variable_reactiva <span class="ot">&lt;-</span> <span class="fu">reactive</span>({ </span>
+<span id="cb2-4"><a href="#cb2-4"></a>    <span class="co"># calcular y rentornar algo, como una función.</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a>    ... </span>
+<span id="cb2-6"><a href="#cb2-6"></a>  })</span>
+<span id="cb2-7"><a href="#cb2-7"></a></span>
+<span id="cb2-8"><a href="#cb2-8"></a>  variable_reactiva <span class="ot">&lt;-</span> <span class="fu">reactiveEvent</span>(expresion_reactiva, {</span>
+<span id="cb2-9"><a href="#cb2-9"></a>    <span class="co"># calcular y rentornar algo, si cambia `expresion_reactiva`.</span></span>
+<span id="cb2-10"><a href="#cb2-10"></a>    ... </span>
+<span id="cb2-11"><a href="#cb2-11"></a>  })</span>
+<span id="cb2-12"><a href="#cb2-12"></a>  </span>
+<span id="cb2-13"><a href="#cb2-13"></a>  <span class="fu">observe</span>({ </span>
+<span id="cb2-14"><a href="#cb2-14"></a>    <span class="co"># hacer algo si cambia algo que depende esta expresión.</span></span>
+<span id="cb2-15"><a href="#cb2-15"></a>    ... </span>
+<span id="cb2-16"><a href="#cb2-16"></a>  })</span>
+<span id="cb2-17"><a href="#cb2-17"></a>  </span>
+<span id="cb2-18"><a href="#cb2-18"></a>  <span class="fu">observeEvent</span>(expresion_reactiva, { </span>
+<span id="cb2-19"><a href="#cb2-19"></a>    <span class="co"># hacer algo si cambia `expresion_reactiva`.</span></span>
+<span id="cb2-20"><a href="#cb2-20"></a>    ... </span>
+<span id="cb2-21"><a href="#cb2-21"></a>  }) </span>
+<span id="cb2-22"><a href="#cb2-22"></a>  </span>
+<span id="cb2-23"><a href="#cb2-23"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="shiny-1.6.0" class="slide level2">
 <h2>Shiny 1.6.0</h2>
 <p>Se agrega una función <code>bindEvent</code> el cual convierte <code>reactive</code>s y <code>observer</code>s en su versión <code>Event</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output) {</span>
-<span id="cb2-2"><a href="#cb2-2"></a>  </span>
-<span id="cb2-3"><a href="#cb2-3"></a>  <span class="co"># Equivalentes!</span></span>
-<span id="cb2-4"><a href="#cb2-4"></a>  var_react <span class="ot">&lt;-</span> <span class="fu">eventReactive</span>(input<span class="sc">$</span>boton, { ... })</span>
-<span id="cb2-5"><a href="#cb2-5"></a>  var_react <span class="ot">&lt;-</span> <span class="fu">reactive</span>({ ... }) <span class="sc">|&gt;</span> <span class="fu">bindEvent</span>(input<span class="sc">$</span>boton)</span>
-<span id="cb2-6"><a href="#cb2-6"></a></span>
-<span id="cb2-7"><a href="#cb2-7"></a>  <span class="co"># Lo mismo!</span></span>
-<span id="cb2-8"><a href="#cb2-8"></a>  <span class="fu">observeEvent</span>(input<span class="sc">$</span>boton, { ... })</span>
-<span id="cb2-9"><a href="#cb2-9"></a>  <span class="fu">observe</span>({ ... }) <span class="sc">|&gt;</span> <span class="fu">bindEvent</span>(input<span class="sc">$</span>boton)</span>
-<span id="cb2-10"><a href="#cb2-10"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output) {</span>
+<span id="cb3-2"><a href="#cb3-2"></a>  </span>
+<span id="cb3-3"><a href="#cb3-3"></a>  <span class="co"># Equivalentes!</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a>  var_react <span class="ot">&lt;-</span> <span class="fu">eventReactive</span>(input<span class="sc">$</span>boton, { ... })</span>
+<span id="cb3-5"><a href="#cb3-5"></a>  var_react <span class="ot">&lt;-</span> <span class="fu">reactive</span>({ ... }) <span class="sc">|&gt;</span> <span class="fu">bindEvent</span>(input<span class="sc">$</span>boton)</span>
+<span id="cb3-6"><a href="#cb3-6"></a></span>
+<span id="cb3-7"><a href="#cb3-7"></a>  <span class="co"># Lo mismo!</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a>  <span class="fu">observeEvent</span>(input<span class="sc">$</span>boton, { ... })</span>
+<span id="cb3-9"><a href="#cb3-9"></a>  <span class="fu">observe</span>({ ... }) <span class="sc">|&gt;</span> <span class="fu">bindEvent</span>(input<span class="sc">$</span>boton)</span>
+<span id="cb3-10"><a href="#cb3-10"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 <aside><div>
@@ -510,106 +550,126 @@
 </section>
 <section id="módulos-1" class="slide level2">
 <h2>Módulos</h2>
-<p>Hola</p>
+<ul>
+<li>Un módulo es un componente autocontenido y compuesto de una aplicación Shiny
+<ul>
+<li>Autocontenido como una función</li>
+<li>Se pueden combinar para hacer una aplicación</li>
+</ul></li>
+</ul>
+<div class="fragment">
+<ul>
+<li>Tienen su propia interfaz de usuario y servidor (además de la interfaz de usuario y servidor de la <strong>aplicación</strong>)</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>Útil para la reutilización
+<ul>
+<li>En lugar de copiar y pegar código, puede usar módulos.</li>
+<li>Se pueden empaquetar en paquetes</li>
+<li>Esencial para administrar la complejidad del código en aplicaciones más grandes</li>
+</ul></li>
+</ul>
+</div>
 </section>
 <section id="patrón-de-uso-en-ui-antes" class="slide level2" data-auto-animate="true">
 <h2 data-id="quarto-animate-title">Patrón de uso en UI: Antes</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb3-1" class="hljs-ln-code"><a href="#cb3-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
-<span id="cb3-2" class="hljs-ln-code"><a href="#cb3-2"></a>  <span class="fu">fluidRow</span>(</span>
-<span id="cb3-3" class="hljs-ln-code"><a href="#cb3-3"></a>    <span class="fu">column</span>(<span class="dv">2</span>, <span class="fu">sliderInput</span>(<span class="st">"nrand"</span>, ...)),</span>
-<span id="cb3-4" class="hljs-ln-code"><a href="#cb3-4"></a>    <span class="fu">column</span>(<span class="dv">2</span>, <span class="fu">selectInput</span>(<span class="st">"dist"</span>, ...))),</span>
-<span id="cb3-5" class="hljs-ln-code"><a href="#cb3-5"></a>    <span class="fu">column</span>(<span class="dv">8</span>, <span class="fu">plotOutput</span>(<span class="st">"plot"</span>))</span>
-<span id="cb3-6" class="hljs-ln-code"><a href="#cb3-6"></a>  )</span>
-<span id="cb3-7" class="hljs-ln-code"><a href="#cb3-7"></a><span class="er">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb4-1" class="hljs-ln-code"><a href="#cb4-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb4-2" class="hljs-ln-code"><a href="#cb4-2"></a>  <span class="fu">fluidRow</span>(</span>
+<span id="cb4-3" class="hljs-ln-code"><a href="#cb4-3"></a>    <span class="fu">column</span>(<span class="dv">2</span>, <span class="fu">sliderInput</span>(<span class="st">"nrand"</span>, ...)),</span>
+<span id="cb4-4" class="hljs-ln-code"><a href="#cb4-4"></a>    <span class="fu">column</span>(<span class="dv">2</span>, <span class="fu">selectInput</span>(<span class="st">"dist"</span>, ...))),</span>
+<span id="cb4-5" class="hljs-ln-code"><a href="#cb4-5"></a>    <span class="fu">column</span>(<span class="dv">8</span>, <span class="fu">plotOutput</span>(<span class="st">"plot"</span>))</span>
+<span id="cb4-6" class="hljs-ln-code"><a href="#cb4-6"></a>  )</span>
+<span id="cb4-7" class="hljs-ln-code"><a href="#cb4-7"></a><span class="er">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="patrón-de-uso-en-ui-ahora" class="slide level2" data-auto-animate="true">
 <h2 data-id="quarto-animate-title">Patrón de uso en UI: Ahora</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb4-1" class="hljs-ln-code"><a href="#cb4-1"></a>moduloUI <span class="ot">&lt;-</span> <span class="cf">function</span>(id) {</span>
-<span id="cb4-2" class="hljs-ln-code"><a href="#cb4-2"></a></span>
-<span id="cb4-3" class="hljs-ln-code"><a href="#cb4-3"></a>  ns <span class="ot">&lt;-</span> <span class="fu">NS</span>(id)</span>
-<span id="cb4-4" class="hljs-ln-code"><a href="#cb4-4"></a>  </span>
-<span id="cb4-5" class="hljs-ln-code"><a href="#cb4-5"></a>  <span class="fu">tagList</span>(</span>
-<span id="cb4-6" class="hljs-ln-code"><a href="#cb4-6"></a>    <span class="fu">column</span>(<span class="dv">2</span>, <span class="fu">sliderInput</span>(<span class="fu">ns</span>(<span class="st">"rand"</span>), ...)),</span>
-<span id="cb4-7" class="hljs-ln-code"><a href="#cb4-7"></a>    <span class="fu">column</span>(<span class="dv">2</span>, <span class="fu">selectInput</span>(<span class="fu">ns</span>(<span class="st">"dist"</span>), ...))),</span>
-<span id="cb4-8" class="hljs-ln-code"><a href="#cb4-8"></a>    <span class="fu">column</span>(<span class="dv">8</span>, <span class="fu">plotOutput</span>(<span class="fu">ns</span>(<span class="st">"plot"</span>)))</span>
-<span id="cb4-9" class="hljs-ln-code"><a href="#cb4-9"></a>  <span class="er">)</span></span>
-<span id="cb4-10" class="hljs-ln-code"><a href="#cb4-10"></a>  </span>
-<span id="cb4-11" class="hljs-ln-code"><a href="#cb4-11"></a>}</span>
-<span id="cb4-12" class="hljs-ln-code"><a href="#cb4-12"></a></span>
-<span id="cb4-13" class="hljs-ln-code"><a href="#cb4-13"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
-<span id="cb4-14" class="hljs-ln-code"><a href="#cb4-14"></a>  <span class="fu">fluidRow</span>(</span>
-<span id="cb4-15" class="hljs-ln-code"><a href="#cb4-15"></a>    <span class="fu">moduloUI</span>(<span class="st">"idmod"</span>)</span>
-<span id="cb4-16" class="hljs-ln-code"><a href="#cb4-16"></a>    )</span>
-<span id="cb4-17" class="hljs-ln-code"><a href="#cb4-17"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb5-1" class="hljs-ln-code"><a href="#cb5-1"></a>moduloUI <span class="ot">&lt;-</span> <span class="cf">function</span>(id) {</span>
+<span id="cb5-2" class="hljs-ln-code"><a href="#cb5-2"></a></span>
+<span id="cb5-3" class="hljs-ln-code"><a href="#cb5-3"></a>  ns <span class="ot">&lt;-</span> <span class="fu">NS</span>(id)</span>
+<span id="cb5-4" class="hljs-ln-code"><a href="#cb5-4"></a>  </span>
+<span id="cb5-5" class="hljs-ln-code"><a href="#cb5-5"></a>  <span class="fu">tagList</span>(</span>
+<span id="cb5-6" class="hljs-ln-code"><a href="#cb5-6"></a>    <span class="fu">column</span>(<span class="dv">2</span>, <span class="fu">sliderInput</span>(<span class="fu">ns</span>(<span class="st">"rand"</span>), ...)),</span>
+<span id="cb5-7" class="hljs-ln-code"><a href="#cb5-7"></a>    <span class="fu">column</span>(<span class="dv">2</span>, <span class="fu">selectInput</span>(<span class="fu">ns</span>(<span class="st">"dist"</span>), ...))),</span>
+<span id="cb5-8" class="hljs-ln-code"><a href="#cb5-8"></a>    <span class="fu">column</span>(<span class="dv">8</span>, <span class="fu">plotOutput</span>(<span class="fu">ns</span>(<span class="st">"plot"</span>)))</span>
+<span id="cb5-9" class="hljs-ln-code"><a href="#cb5-9"></a>  <span class="er">)</span></span>
+<span id="cb5-10" class="hljs-ln-code"><a href="#cb5-10"></a>  </span>
+<span id="cb5-11" class="hljs-ln-code"><a href="#cb5-11"></a>}</span>
+<span id="cb5-12" class="hljs-ln-code"><a href="#cb5-12"></a></span>
+<span id="cb5-13" class="hljs-ln-code"><a href="#cb5-13"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb5-14" class="hljs-ln-code"><a href="#cb5-14"></a>  <span class="fu">fluidRow</span>(</span>
+<span id="cb5-15" class="hljs-ln-code"><a href="#cb5-15"></a>    <span class="fu">moduloUI</span>(<span class="st">"idmod"</span>)</span>
+<span id="cb5-16" class="hljs-ln-code"><a href="#cb5-16"></a>    )</span>
+<span id="cb5-17" class="hljs-ln-code"><a href="#cb5-17"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="patrón-de-uso-en-server-antes" class="slide level2" data-auto-animate="true">
 <h2 data-id="quarto-animate-title">Patrón de uso en Server: Antes</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb5-1" class="hljs-ln-code"><a href="#cb5-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
-<span id="cb5-2" class="hljs-ln-code"><a href="#cb5-2"></a>  </span>
-<span id="cb5-3" class="hljs-ln-code"><a href="#cb5-3"></a>      output<span class="sc">$</span>plot <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>({</span>
-<span id="cb5-4" class="hljs-ln-code"><a href="#cb5-4"></a>        </span>
-<span id="cb5-5" class="hljs-ln-code"><a href="#cb5-5"></a>        rdist <span class="ot">&lt;-</span> <span class="cf">switch</span>(input<span class="sc">$</span>dist, <span class="st">"norm"</span> <span class="ot">=</span> rnorm, <span class="st">"exp"</span>  <span class="ot">=</span> rexp)</span>
-<span id="cb5-6" class="hljs-ln-code"><a href="#cb5-6"></a>        <span class="fu">hist</span>(<span class="fu">rdist</span>(input<span class="sc">$</span>rand), <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>))</span>
-<span id="cb5-7" class="hljs-ln-code"><a href="#cb5-7"></a>        </span>
-<span id="cb5-8" class="hljs-ln-code"><a href="#cb5-8"></a>      })</span>
-<span id="cb5-9" class="hljs-ln-code"><a href="#cb5-9"></a></span>
-<span id="cb5-10" class="hljs-ln-code"><a href="#cb5-10"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb6-1" class="hljs-ln-code"><a href="#cb6-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb6-2" class="hljs-ln-code"><a href="#cb6-2"></a>  </span>
+<span id="cb6-3" class="hljs-ln-code"><a href="#cb6-3"></a>      output<span class="sc">$</span>plot <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>({</span>
+<span id="cb6-4" class="hljs-ln-code"><a href="#cb6-4"></a>        </span>
+<span id="cb6-5" class="hljs-ln-code"><a href="#cb6-5"></a>        rdist <span class="ot">&lt;-</span> <span class="cf">switch</span>(input<span class="sc">$</span>dist, <span class="st">"norm"</span> <span class="ot">=</span> rnorm, <span class="st">"exp"</span>  <span class="ot">=</span> rexp)</span>
+<span id="cb6-6" class="hljs-ln-code"><a href="#cb6-6"></a>        <span class="fu">hist</span>(<span class="fu">rdist</span>(input<span class="sc">$</span>rand), <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>))</span>
+<span id="cb6-7" class="hljs-ln-code"><a href="#cb6-7"></a>        </span>
+<span id="cb6-8" class="hljs-ln-code"><a href="#cb6-8"></a>      })</span>
+<span id="cb6-9" class="hljs-ln-code"><a href="#cb6-9"></a></span>
+<span id="cb6-10" class="hljs-ln-code"><a href="#cb6-10"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="patrón-de-uso-en-server-ahora" class="slide level2" data-auto-animate="true">
 <h2 data-id="quarto-animate-title">Patrón de uso en Server: Ahora</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb6-1" class="hljs-ln-code"><a href="#cb6-1"></a>moduloServidor <span class="ot">&lt;-</span> <span class="cf">function</span>(id) {</span>
-<span id="cb6-2" class="hljs-ln-code"><a href="#cb6-2"></a>  <span class="fu">moduleServer</span>(id, <span class="cf">function</span>(input, output, session) {</span>
-<span id="cb6-3" class="hljs-ln-code"><a href="#cb6-3"></a>      </span>
-<span id="cb6-4" class="hljs-ln-code"><a href="#cb6-4"></a>      output<span class="sc">$</span>plot <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>({</span>
-<span id="cb6-5" class="hljs-ln-code"><a href="#cb6-5"></a>        </span>
-<span id="cb6-6" class="hljs-ln-code"><a href="#cb6-6"></a>        rdist <span class="ot">&lt;-</span> <span class="cf">switch</span>(input<span class="sc">$</span>dist, <span class="st">"norm"</span> <span class="ot">=</span> rnorm, <span class="st">"exp"</span>  <span class="ot">=</span> rexp)</span>
-<span id="cb6-7" class="hljs-ln-code"><a href="#cb6-7"></a>        <span class="fu">hist</span>(<span class="fu">rdist</span>(input<span class="sc">$</span>rand), <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>))</span>
-<span id="cb6-8" class="hljs-ln-code"><a href="#cb6-8"></a>        </span>
-<span id="cb6-9" class="hljs-ln-code"><a href="#cb6-9"></a>      })</span>
-<span id="cb6-10" class="hljs-ln-code"><a href="#cb6-10"></a>      </span>
-<span id="cb6-11" class="hljs-ln-code"><a href="#cb6-11"></a>  })</span>
-<span id="cb6-12" class="hljs-ln-code"><a href="#cb6-12"></a>}</span>
-<span id="cb6-13" class="hljs-ln-code"><a href="#cb6-13"></a></span>
-<span id="cb6-14" class="hljs-ln-code"><a href="#cb6-14"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
-<span id="cb6-15" class="hljs-ln-code"><a href="#cb6-15"></a>  </span>
-<span id="cb6-16" class="hljs-ln-code"><a href="#cb6-16"></a>  <span class="fu">moduloServidor</span>(<span class="st">"idmod"</span>)</span>
-<span id="cb6-17" class="hljs-ln-code"><a href="#cb6-17"></a>  </span>
-<span id="cb6-18" class="hljs-ln-code"><a href="#cb6-18"></a>}<span class="er">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb7-1" class="hljs-ln-code"><a href="#cb7-1"></a>moduloServidor <span class="ot">&lt;-</span> <span class="cf">function</span>(id) {</span>
+<span id="cb7-2" class="hljs-ln-code"><a href="#cb7-2"></a>  <span class="fu">moduleServer</span>(id, <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb7-3" class="hljs-ln-code"><a href="#cb7-3"></a>      </span>
+<span id="cb7-4" class="hljs-ln-code"><a href="#cb7-4"></a>      output<span class="sc">$</span>plot <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>({</span>
+<span id="cb7-5" class="hljs-ln-code"><a href="#cb7-5"></a>        </span>
+<span id="cb7-6" class="hljs-ln-code"><a href="#cb7-6"></a>        rdist <span class="ot">&lt;-</span> <span class="cf">switch</span>(input<span class="sc">$</span>dist, <span class="st">"norm"</span> <span class="ot">=</span> rnorm, <span class="st">"exp"</span>  <span class="ot">=</span> rexp)</span>
+<span id="cb7-7" class="hljs-ln-code"><a href="#cb7-7"></a>        <span class="fu">hist</span>(<span class="fu">rdist</span>(input<span class="sc">$</span>rand), <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>))</span>
+<span id="cb7-8" class="hljs-ln-code"><a href="#cb7-8"></a>        </span>
+<span id="cb7-9" class="hljs-ln-code"><a href="#cb7-9"></a>      })</span>
+<span id="cb7-10" class="hljs-ln-code"><a href="#cb7-10"></a>      </span>
+<span id="cb7-11" class="hljs-ln-code"><a href="#cb7-11"></a>  })</span>
+<span id="cb7-12" class="hljs-ln-code"><a href="#cb7-12"></a>}</span>
+<span id="cb7-13" class="hljs-ln-code"><a href="#cb7-13"></a></span>
+<span id="cb7-14" class="hljs-ln-code"><a href="#cb7-14"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb7-15" class="hljs-ln-code"><a href="#cb7-15"></a>  </span>
+<span id="cb7-16" class="hljs-ln-code"><a href="#cb7-16"></a>  <span class="fu">moduloServidor</span>(<span class="st">"idmod"</span>)</span>
+<span id="cb7-17" class="hljs-ln-code"><a href="#cb7-17"></a>  </span>
+<span id="cb7-18" class="hljs-ln-code"><a href="#cb7-18"></a>}<span class="er">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="patrón-de-uso-1" class="slide level2">
 <h2>Patrón de uso</h2>
 <p>Al cambiar a este flujo/framework de programación de aplicaciones shiny:</p>
-<p>Módulo UI:</p>
-<p>El cambio en <code>id</code>s es explícito. Cambiar unInput(<code>"id")</code> por <code>unInput(NS("id"))</code>. Se puede separar para tener distintas ubicaciones (ver ejemplos).</p>
-<p>Modulo Server:</p>
-<p>La funcionalidad de implícita, uno <em>copia</em> y <em>pega</em>, y el módulo hace el intercambio correspondiente.</p>
+<p><br> Módulo UI: El cambio en <code>id</code>s es explícito. Cambiar unInput(<code>"id")</code> por <code>unInput(NS("id"))</code>. Se puede separar para tener distintas ubicaciones (ver ejemplos).</p>
+<p><br></p>
+<p>Modulo Server: La funcionalidad de implícita, uno <em>copia</em> y <em>pega</em>, y el módulo hace el intercambio correspondiente.</p>
 </section>
 <section id="beneficio" class="slide level2">
 <h2>Beneficio?</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">source</span>(<span class="st">"ruta/hacia/modulo.R"</span>)</span>
-<span id="cb7-2"><a href="#cb7-2"></a></span>
-<span id="cb7-3"><a href="#cb7-3"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
-<span id="cb7-4"><a href="#cb7-4"></a>  <span class="fu">fluidRow</span>(</span>
-<span id="cb7-5"><a href="#cb7-5"></a>    <span class="fu">moduloUI</span>(<span class="st">"modulo1"</span>),</span>
-<span id="cb7-6"><a href="#cb7-6"></a>    <span class="fu">moduloUI</span>(<span class="st">"modulo2"</span>),</span>
-<span id="cb7-7"><a href="#cb7-7"></a>    ...</span>
-<span id="cb7-8"><a href="#cb7-8"></a>    )</span>
-<span id="cb7-9"><a href="#cb7-9"></a>)</span>
-<span id="cb7-10"><a href="#cb7-10"></a></span>
-<span id="cb7-11"><a href="#cb7-11"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
-<span id="cb7-12"><a href="#cb7-12"></a>  <span class="fu">moduloServidor</span>(<span class="st">"modulo1"</span>)</span>
-<span id="cb7-13"><a href="#cb7-13"></a>  <span class="fu">moduloServidor</span>(<span class="st">"modulo2"</span>)</span>
-<span id="cb7-14"><a href="#cb7-14"></a>  ...</span>
-<span id="cb7-15"><a href="#cb7-15"></a>}<span class="er">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">source</span>(<span class="st">"ruta/hacia/modulo.R"</span>)</span>
+<span id="cb8-2"><a href="#cb8-2"></a></span>
+<span id="cb8-3"><a href="#cb8-3"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb8-4"><a href="#cb8-4"></a>  <span class="fu">fluidRow</span>(</span>
+<span id="cb8-5"><a href="#cb8-5"></a>    <span class="fu">moduloUI</span>(<span class="st">"modulo1"</span>),</span>
+<span id="cb8-6"><a href="#cb8-6"></a>    <span class="fu">moduloUI</span>(<span class="st">"modulo2"</span>),</span>
+<span id="cb8-7"><a href="#cb8-7"></a>    ...</span>
+<span id="cb8-8"><a href="#cb8-8"></a>    )</span>
+<span id="cb8-9"><a href="#cb8-9"></a>)</span>
+<span id="cb8-10"><a href="#cb8-10"></a></span>
+<span id="cb8-11"><a href="#cb8-11"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb8-12"><a href="#cb8-12"></a>  <span class="fu">moduloServidor</span>(<span class="st">"modulo1"</span>)</span>
+<span id="cb8-13"><a href="#cb8-13"></a>  <span class="fu">moduloServidor</span>(<span class="st">"modulo2"</span>)</span>
+<span id="cb8-14"><a href="#cb8-14"></a>  ...</span>
+<span id="cb8-15"><a href="#cb8-15"></a>}<span class="er">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="revisar-las-siguientes-apps-1" class="slide level2">
@@ -625,6 +685,15 @@
 - apps/modulos/07-app-modulos.R</code></pre>
 </div>
 </div>
+</section>
+<section id="ejercicio" class="slide level2">
+<h2>Ejercicio</h2>
+<ol type="1">
+<li><p>Considerando el data set <code>iris</code>, genere una aplicación que tenga un selector que liste las variables continuas y dado una variable realice un histograma.</p></li>
+<li><p>Ahora transfórmelo en módulo y agregue tres instancias de dicho módulo con diferentes tablas (<code>mtcars</code>, <code>diamonds</code>, <code>mtautos</code>, <code>diamates</code>).</p></li>
+<li><p>Extienda el módulo para incluir un output que muestre el <code>summary</code> de la variable seleccionada.</p></li>
+<li><p>Ideas? Preguntas?</p></li>
+</ol>
 </section></section>
 <section>
 <section id="htmlwidgets" class="title-slide slide level1 bckgrnd center" data-background-image="imgs/stephen-dawson-qwtCeJ5cLYs-unsplash.jpg">
@@ -633,11 +702,17 @@
 </section>
 <section id="htmlwidgets-1" class="slide level2">
 <h2>HTMLWidgets</h2>
-</section></section>
-<section>
-<section id="html-css-js" class="title-slide slide level1 bckgrnd center" data-background-image="imgs/valery-sysoev-p9OkL4yW3C8-unsplash.jpg">
-<h1>HTML, CSS, JS</h1>
-
+<p>Usar librerías de visualización Javascript en R.</p>
+<p>…</p>
+<p>Los widgets se pueden incluir en documentos RMarkdown y aplicaciones web Shiny</p>
+<p>…</p>
+<p>HTMLwidget pude ser una parte</p>
+</section>
+<section id="htmlwidgets-eso-es-todo" class="slide level2">
+<h2>HTMLWidgets, eso es todo?</h2>
+<p>No!</p>
+<p>… <br></p>
+<p>Los widg</p>
 </section>
 <section id="revisar-las-siguientes-apps-2" class="slide level2">
 <h2>Revisar las siguientes apps</h2>
@@ -648,23 +723,35 @@
 <li>apps/htmlwidgets/04-app-htmlwidgets-events.R</li>
 </ul>
 </section>
-<section id="html-css-js-1" class="slide level2">
-<h2>HTML, CSS, JS</h2>
-<p>Hola</p>
-<div class="fragment">
-<p>Chao</p>
-</div>
+<section id="ejercicio-1" class="slide level2">
+<h2>Ejercicio</h2>
+<ol type="1">
+<li><p>Reutilice alguna app de la carpeta <code>htmlwidgets</code> para que al hacer click sobre un sismo, se escriban todos la información del sismo en la ui.</p></li>
+<li><p>Cree una app que genere un scatter plot de acuerdo a 2 inputs para indicar variable x, variable y. Utilice un proxy para no <em>rebibujar</em> el gráfico.</p></li>
+<li><p>Para la aplicación anterior, conviértala en módulo.</p></li>
+<li><p>Ideas? Preguntas?</p></li>
+</ol>
 </section></section>
 <section>
-<section id="gracias" class="title-slide slide level1 center">
-<h1>Gracias!</h1>
+<section id="html-css-js" class="title-slide slide level1 bckgrnd center" data-background-image="imgs/valery-sysoev-p9OkL4yW3C8-unsplash.jpg">
+<h1>HTML, CSS, JS</h1>
 
 </section>
-<section id="gracias-a" class="slide level2">
-<h2>Gracias a</h2>
+<section id="html-css-js-1" class="slide level2">
+<h2>HTML, CSS, JS</h2>
+<p>Hola . . . Chao</p>
+</section></section>
+<section>
+<section id="eso-gracias-un-gustazo" class="title-slide slide level1 center">
+<h1>Eso! gracias un gustazo!</h1>
+
+</section>
+<section id="créditos-imágenes" class="slide level2">
+<h2>Créditos imágenes</h2>
 <p>Foto de <a href="https://unsplash.com/@dawson2406?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Stephen Dawson</a> en <a href="https://unsplash.com/es/fotos/qwtCeJ5cLYs?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></p>
 <p>Foto de <a href="https://unsplash.com/@guibolduc?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Guillaume Bolduc</a> en <a href="https://unsplash.com/es/fotos/uBe2mknURG4?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></p>
 <p>Foto de <a href="https://unsplash.com/@valerysysoev?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Valery Sysoev</a> en <a href="https://unsplash.com/es/fotos/p9OkL4yW3C8?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></p>
+<p>Foto de <a href="https://unsplash.com/@jannerboy62?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Nick Fewings</a> en <a href="https://unsplash.com/es/fotos/XqOBKnxDSfE?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></p>
 <div class="footer footer-default">
 
 </div>
