@@ -1,0 +1,293 @@
+---
+title: "<span style='color:white'>Shiny Avanzado</span>"
+author: "<span style='color:white'>Joshua Kunst Fuentes @jbkunst</span>"
+format:
+  revealjs:
+    theme: [default, css/custom.scss]
+    transition: slide
+    background-transition: fade
+    navigation-mode: vertical
+    # smaller: true
+    scrollable: true
+    progress: true #default
+title-slide-attributes:
+  data-background-image: imgs/titlebackground.jpg
+  data-background-size: cover #contain
+editor_options: 
+  chunk_output_type: console
+---
+
+# Bienvenidos! { .bckgrnd }
+
+## Antes de Partir
+
+Te
+
+## Lo que veremos
+
+
+**Reactividad**: 
+
+  Expresiones reactivas, _Observers_ y Eventos
+
+**Módulos**: 
+
+  Definición, utilidades, patrón de uso
+
+**htmlwidgets**:
+
+  Proxies y eventos
+
+**HTML, CSS, JS**: 
+
+  Introduccion, definiciones, etc.
+
+
+# Reactividad
+
+## Reactividad
+
+asdas
+
+## Tipos de elementos 
+
+De manera conceptual una _expresion reactiva_ es una expresión que cambiará en el tiempo.
+
+- `reactive` crea una expresión reactiva, la cual cambia si una de los elementos reactivos que
+depende cambia.
+
+- `eventReactive` igual que el anterior pero se gatilla por el cambio de una variable reactiva.
+
+- `observe` Crear una expresión reactiva que se ejecuta cuando una variable de la cual depende
+cambia.
+
+- `observeEvent` ídem al anterior pero se gatilla por el una expresión reactiva.
+
+
+## Similitudes y Diferencias entre reactivos y observers.
+
+### Similitudes:
+
+Se gatillan por el cambio de alguna variable o expresión reactiva.
+
+### Diferencias:
+
+Expresiones reactivas retornan valores, los `observer`s no lo hacen.
+
+## Patrón de uso
+
+```{r, eval=FALSE, echo=TRUE}
+server <- function(input, output) {
+  
+  variable_reactiva <- reactive({ 
+    # calcular y rentornar algo, como una función.
+    ... 
+  })
+
+  variable_reactiva <- reactiveEvent(expresion_reactiva, {
+    # calcular y rentornar algo, si cambia `expresion_reactiva`.
+    ... 
+  })
+  
+  observe({ 
+    # hacer algo si cambia algo que depende esta expresión.
+    ... 
+  })
+  
+  observeEvent(expresion_reactiva, { 
+    # hacer algo si cambia `expresion_reactiva`.
+    ... 
+  }) 
+  
+}
+```
+
+## Shiny 1.6.0
+
+Se agrega una función `bindEvent` el cual convierte `reactive`s y `observer`s
+en su versión `Event`:
+
+```{r, eval=FALSE, echo=TRUE}
+server <- function(input, output) {
+  
+  # Equivalentes!
+  var_react <- eventReactive(input$boton, { ... })
+  var_react <- reactive({ ... }) |> bindEvent(input$boton)
+
+  # Lo mismo!
+  observeEvent(input$boton, { ... })
+  observe({ ... }) |> bindEvent(input$boton)
+}
+```
+
+::: aside
+Más detalles en [https://www.rstudio.com/blog/shiny-1-6-0/](https://www.rstudio.com/blog/shiny-1-6-0/).
+:::
+
+## Revisar las siguientes apps
+
+```{r results='asis'}
+dir("apps/reactividad/", full.names = TRUE) |> 
+  purrr::map_chr(~ stringr::str_glue("- {.x}")) |> 
+  purrr::walk(~ {cat(.x); cat("\n")})
+```
+
+# Módulos { .bckgrnd background-image="imgs/guillaume-bolduc-uBe2mknURG4-unsplash.jpg"}
+ 
+## Módulos
+
+Hola
+
+
+## Patrón de uso en UI: Antes {auto-animate=true}
+
+```{r, eval=FALSE, echo=TRUE}
+ui <- fluidPage(
+  fluidRow(
+    column(2, sliderInput("nrand", ...)),
+    column(2, selectInput("dist", ...))),
+    column(8, plotOutput("plot"))
+  )
+)
+```
+
+## Patrón de uso en UI: Ahora {auto-animate=true}
+
+```{r, eval=FALSE, echo=TRUE}
+moduloUI <- function(id) {
+
+  ns <- NS(id)
+  
+  tagList(
+    column(2, sliderInput(ns("rand"), ...)),
+    column(2, selectInput(ns("dist"), ...))),
+    column(8, plotOutput(ns("plot")))
+  )
+  
+}
+
+ui <- fluidPage(
+  fluidRow(
+    moduloUI("idmod")
+    )
+)
+```
+
+## Patrón de uso en Server: Antes {auto-animate=true}
+
+```{r, eval=FALSE, echo=TRUE}
+server <- function(input, output, session) {
+  
+      output$plot <- renderPlot({
+        
+        rdist <- switch(input$dist, "norm" = rnorm, "exp"  = rexp)
+        hist(rdist(input$rand), xlim = c(-5, 5))
+        
+      })
+
+}
+```
+
+## Patrón de uso en Server: Ahora {auto-animate=true}
+
+```{r, eval=FALSE, echo=TRUE}
+moduloServidor <- function(id) {
+  moduleServer(id, function(input, output, session) {
+      
+      output$plot <- renderPlot({
+        
+        rdist <- switch(input$dist, "norm" = rnorm, "exp"  = rexp)
+        hist(rdist(input$rand), xlim = c(-5, 5))
+        
+      })
+      
+  })
+}
+
+server <- function(input, output, session) {
+  
+  moduloServidor("idmod")
+  
+})
+```
+
+## Patrón de uso
+
+Al cambiar a este flujo/framework de programación de aplicaciones shiny:
+
+Módulo UI:
+
+El cambio en `id`s es explícito. Cambiar unInput(`"id")` por `unInput(NS("id"))`.
+Se puede separar para tener distintas ubicaciones (ver ejemplos).
+
+Modulo Server:
+
+La funcionalidad de implícita, uno _copia_ y _pega_, y el módulo hace
+el intercambio correspondiente.
+
+## Beneficio?
+
+```{r, eval=FALSE, echo=TRUE}
+source("ruta/hacia/modulo.R")
+
+ui <- fluidPage(
+  fluidRow(
+    moduloUI("modulo1"),
+    moduloUI("modulo2"),
+    ...
+    )
+)
+
+server <- function(input, output, session) {
+  moduloServidor("modulo1")
+  moduloServidor("modulo2")
+  ...
+})
+```
+
+## Revisar las siguientes apps
+
+```{r eval=TRUE}
+dir("apps/modulos/", full.names = TRUE) |> 
+  purrr::map_chr(~ stringr::str_glue("- {.x}")) |> 
+  purrr::walk(~ {cat(.x); cat("\n")})
+```
+
+
+
+# HTMLWidgets { .bckgrnd background-image="imgs/stephen-dawson-qwtCeJ5cLYs-unsplash.jpg"}
+
+## HTMLWidgets
+
+# HTML, CSS, JS { .bckgrnd background-image="imgs/valery-sysoev-p9OkL4yW3C8-unsplash.jpg"}  
+
+## Revisar las siguientes apps
+
+```{r results='asis'}
+dir("apps/htmlwidgets/", full.names = TRUE) |> 
+  purrr::map_chr(~ stringr::str_glue("- {.x}")) |> 
+  purrr::walk(~ {cat(.x); cat("\n")})
+```
+
+##  HTML, CSS, JS
+
+Hola
+
+. . .
+
+Chao
+
+
+# Gracias!
+
+## Gracias a
+
+Foto de <a href="https://unsplash.com/@dawson2406?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Stephen Dawson</a> en <a href="https://unsplash.com/es/fotos/qwtCeJ5cLYs?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+
+
+Foto de <a href="https://unsplash.com/@guibolduc?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Guillaume Bolduc</a> en <a href="https://unsplash.com/es/fotos/uBe2mknURG4?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+
+
+Foto de <a href="https://unsplash.com/@valerysysoev?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Valery Sysoev</a> en <a href="https://unsplash.com/es/fotos/p9OkL4yW3C8?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+  
+  

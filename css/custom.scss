@@ -1,0 +1,30 @@
+/*-- scss:defaults --*/
+
+$font-family-sans-serif: "IBM Plex Sans", FreeSerif, serif !default;
+$body-bg: #FFF !default;
+$font-family-monospace:  "Fira Mono";
+
+$presentation-heading-font: "Alegreya Sans SC", "Book Antiqua", serif !default;
+
+/*-- scss:rules --*/
+@import url('https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC:wght@400&family=IBM+Plex+Sans:wght@300&display=swap');
+
+.reveal h2 {
+  padding-bottom: 0.25em;
+}
+
+.reveal section p, .reveal section li {
+  color: #333;
+  font-weight: 300;
+  font-size: .8em;
+  line-height: 1.5em;
+  vertical-align: top;
+}
+
+.bckgrnd {
+  h1, h2, h3 {
+    background-color: #FFF;
+    text-align: center; 
+    color: #333;
+  }
+}
