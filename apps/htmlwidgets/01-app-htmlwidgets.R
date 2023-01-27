@@ -65,19 +65,19 @@ server <- function(input, output) {
   #   
   # })
   
-  output$mapa <- renderLeaflet({ 
+  output$mapa <- renderLeaflet({
     sismos <- sismos()
-    leaflet(sismos) |> 
-      addTiles() |>   
+    leaflet(sismos) |>
+      addTiles() |>
       addMarkers(
-        lng = ~longitud, 
+        lng = ~longitud,
         lat = ~latitud,
         popup = ~as.character(info),
         label = ~as.character(fecha_local_lugar)
       )
   })
-  
-  output$tabla <- renderDataTable({ 
+
+  output$tabla <- renderDataTable({
     sismos()
   })
   

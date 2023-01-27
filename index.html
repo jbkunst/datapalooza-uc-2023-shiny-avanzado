@@ -405,7 +405,7 @@
 <h1>Bienvenidos!</h1>
 
 </section>
-<section id="antes-de-partir" class="slide level2">
+<section id="antes-de-partir" class="slide level2" data-background-image="imgs/background2.jpg">
 <h2>Antes de Partir</h2>
 <ul>
 <li><p>Respositorio: <a href="https://github.com/jbkunst/datapalooza-uc-2023-shiny-avanzado">https://github.com/jbkunst/datapalooza-uc-2023-shiny-avanzado</a>, para clonarlo en posit.cloud</p></li>
@@ -533,6 +533,20 @@
 <aside><div>
 <p>Más detalles en <a href="https://www.rstudio.com/blog/shiny-1-6-0/">https://www.rstudio.com/blog/shiny-1-6-0/</a>.</p>
 </div></aside></section>
+<section id="resumen-tareafunción" class="slide level2">
+<h2>Resumen: tarea/<code>función</code></h2>
+<ul>
+<li>Calcular valores: <strong><code>reactive</code></strong> / <code>eventReactive</code></li>
+<li>Ejecutar tareas: <strong><code>observe</code></strong> / <code>observeEvent</code></li>
+<li>Almacenar valores: <strong><code>reactiveVal</code></strong> / <code>input</code> / <code>reactiveValues</code></li>
+<li>Prevenir reactivdad: <strong><code>isolate</code></strong></li>
+<li>Chequear condiciones: <strong><code>req</code></strong></li>
+<li>Reejecutar tareas cada cierto tiempo: <strong><code>invalidateLater</code></strong></li>
+</ul>
+
+<aside><div>
+<p>Más info en <a href="https://rstudio-education.github.io/advanced-shiny-az/03-react-prog/03-react-prog.pdf">https://rstudio-education.github.io/advanced-shiny-az/03-react-prog/03-react-prog.pdf</a>.</p>
+</div></aside></section>
 <section id="revisar-las-siguientes-apps" class="slide level2">
 <h2>Revisar las siguientes apps</h2>
 <ul>
@@ -542,6 +556,13 @@
 <li>apps/reactividad/04-app-observe.R</li>
 <li>apps/reactividad/04-app-observeEvent.R</li>
 </ul>
+</section>
+<section id="ejercicio-paquete-reactlog" class="slide level2">
+<h2>Ejercicio: Paquete <code>reactlog</code></h2>
+<p>El paquete <code>reactlog</code> pertmite registrar las acciones de una aplicación para conocer el flujo de la reactividad.</p>
+<ol type="1">
+<li>Utilice alguna el script en <code>R/01-reactlog-example.R</code> y comente.</li>
+</ol>
 </section></section>
 <section>
 <section id="módulos" class="title-slide slide level1 bckgrnd center" data-background-image="imgs/guillaume-bolduc-uBe2mknURG4-unsplash.jpg">
@@ -566,8 +587,7 @@
 <ul>
 <li>Útil para la reutilización
 <ul>
-<li>En lugar de copiar y pegar código, puede usar módulos.</li>
-<li>Se pueden empaquetar en paquetes</li>
+<li>En lugar de copiar y pegar código, puede usar módulos. Incorporar en paquetes</li>
 <li>Esencial para administrar la complejidad del código en aplicaciones más grandes</li>
 </ul></li>
 </ul>
@@ -654,6 +674,7 @@
 </section>
 <section id="beneficio" class="slide level2">
 <h2>Beneficio?</h2>
+<div class="fragment">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">source</span>(<span class="st">"ruta/hacia/modulo.R"</span>)</span>
 <span id="cb8-2"><a href="#cb8-2"></a></span>
@@ -671,6 +692,7 @@
 <span id="cb8-14"><a href="#cb8-14"></a>  ...</span>
 <span id="cb8-15"><a href="#cb8-15"></a>}<span class="er">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</div>
 </section>
 <section id="revisar-las-siguientes-apps-1" class="slide level2">
 <h2>Revisar las siguientes apps</h2>
@@ -686,11 +708,11 @@
 </div>
 </div>
 </section>
-<section id="ejercicio" class="slide level2">
-<h2>Ejercicio</h2>
+<section id="ejercicio-creando-app-luego-un-módulo" class="slide level2">
+<h2>Ejercicio: Creando App, luego un módulo</h2>
 <ol type="1">
 <li><p>Considerando el data set <code>iris</code>, genere una aplicación que tenga un selector que liste las variables continuas y dado una variable realice un histograma.</p></li>
-<li><p>Ahora transfórmelo en módulo y agregue tres instancias de dicho módulo con diferentes tablas (<code>mtcars</code>, <code>diamonds</code>, <code>mtautos</code>, <code>diamates</code>).</p></li>
+<li><p>Ahora transfórmelo en módulo y agregue tres instancias de dicho módulo con diferentes tablas (<code>mtcars</code>, <code>diamonds</code>, <code>mtautos</code>, <code>diamantes</code>).</p></li>
 <li><p>Extienda el módulo para incluir un output que muestre el <code>summary</code> de la variable seleccionada.</p></li>
 <li><p>Ideas? Preguntas?</p></li>
 </ol>
@@ -703,17 +725,22 @@
 <section id="htmlwidgets-1" class="slide level2">
 <h2>HTMLWidgets</h2>
 <p>Usar librerías de visualización Javascript en R.</p>
-<p>…</p>
+<div class="fragment">
 <p>Los widgets se pueden incluir en documentos RMarkdown y aplicaciones web Shiny</p>
-<p>…</p>
-<p>HTMLwidget pude ser una parte</p>
+</div>
+<div class="fragment">
+<p>HTMLwidgets puden ser una parte fundamental de una aplicación dado que muestran visualizaciones.</p>
+</div>
 </section>
 <section id="htmlwidgets-eso-es-todo" class="slide level2">
 <h2>HTMLWidgets, eso es todo?</h2>
 <p>No!</p>
 <p>… <br></p>
-<p>Los widg</p>
-</section>
+<p>Los widget pueden utilizarse como inputs a través de eventos Javascript!</p>
+
+<aside><div>
+<p>Ejemplo <a href="https://odes-chile.org/app/estaciones/">https://odes-chile.org/app/estaciones/</a>.</p>
+</div></aside></section>
 <section id="revisar-las-siguientes-apps-2" class="slide level2">
 <h2>Revisar las siguientes apps</h2>
 <ul>
@@ -723,8 +750,8 @@
 <li>apps/htmlwidgets/04-app-htmlwidgets-events.R</li>
 </ul>
 </section>
-<section id="ejercicio-1" class="slide level2">
-<h2>Ejercicio</h2>
+<section id="ejercicio-haciendo-más-con-los-eventos" class="slide level2">
+<h2>Ejercicio: Haciendo más con los eventos</h2>
 <ol type="1">
 <li><p>Reutilice alguna app de la carpeta <code>htmlwidgets</code> para que al hacer click sobre un sismo, se escriban todos la información del sismo en la ui.</p></li>
 <li><p>Cree una app que genere un scatter plot de acuerdo a 2 inputs para indicar variable x, variable y. Utilice un proxy para no <em>rebibujar</em> el gráfico.</p></li>
@@ -739,11 +766,21 @@
 </section>
 <section id="html-css-js-1" class="slide level2">
 <h2>HTML, CSS, JS</h2>
-<p>Hola . . . Chao</p>
+<p>Hola</p>
+<div class="fragment">
+<p>Chao</p>
+</div>
+</section>
+<section id="ejercicio-implementando-cosas" class="slide level2">
+<h2>Ejercicio: Implementando cosas</h2>
+<ol type="1">
+<li><p>Revise este link y en la primera app de htmlwidgets realice lo necesario para implementar <a href="https://www.jumpingrivers.com/blog/improving-responsiveness-shiny-applications/">https://www.jumpingrivers.com/blog/improving-responsiveness-shiny-applications/</a>.</p></li>
+<li><p>Implemente de diferentes formas dicha <em>feature</em>.</p></li>
+</ol>
 </section></section>
 <section>
 <section id="eso-gracias-un-gustazo" class="title-slide slide level1 center">
-<h1>Eso! gracias un gustazo!</h1>
+<h1>Eso! gracias! un gustazo!</h1>
 
 </section>
 <section id="créditos-imágenes" class="slide level2">

@@ -19,7 +19,7 @@ editor_options:
 
 # Bienvenidos! { .bckgrnd background-image="imgs/nick-fewings-XqOBKnxDSfE-unsplash.jpg" }
 
-## Antes de Partir
+## Antes de Partir { background-image="imgs/background2.jpg"}
 
 - Respositorio: [https://github.com/jbkunst/datapalooza-uc-2023-shiny-avanzado](https://github.com/jbkunst/datapalooza-uc-2023-shiny-avanzado), para clonarlo en posit.cloud
 
@@ -73,7 +73,7 @@ install.packages(
 ```
 
 
-# Reactividad{ .bckgrnd background-image="imgs/reactivity-graph-00.png"}
+# Reactividad { .bckgrnd background-image="imgs/reactivity-graph-00.png"}
 
 ## Reactividad
 
@@ -164,6 +164,19 @@ server <- function(input, output) {
 Más detalles en [https://www.rstudio.com/blog/shiny-1-6-0/](https://www.rstudio.com/blog/shiny-1-6-0/).
 :::
 
+## Resumen: tarea/`función`
+
+- Calcular valores: **`reactive`** / `eventReactive`
+- Ejecutar tareas: **`observe`** / `observeEvent`
+- Almacenar valores: **`reactiveVal`** / `input` / `reactiveValues` 
+- Prevenir reactivdad: **`isolate`**
+- Chequear condiciones: **`req`**
+- Reejecutar tareas cada cierto tiempo: **`invalidateLater`**
+
+::: aside 
+Más info en [https://rstudio-education.github.io/advanced-shiny-az/03-react-prog/03-react-prog.pdf](https://rstudio-education.github.io/advanced-shiny-az/03-react-prog/03-react-prog.pdf).
+:::
+
 ## Revisar las siguientes apps
 
 ```{r results='asis'}
@@ -171,6 +184,13 @@ dir("apps/reactividad/", full.names = TRUE) |>
   purrr::map_chr(~ stringr::str_glue("- {.x}")) |> 
   purrr::walk(~ {cat(.x); cat("\n")})
 ```
+
+## Ejercicio: Paquete `reactlog`
+
+El paquete `reactlog` pertmite registrar las acciones de una aplicación
+para conocer el flujo de la reactividad.
+
+1. Utilice alguna el script en `R/01-reactlog-example.R` y comente.
 
 # Módulos { .bckgrnd background-image="imgs/guillaume-bolduc-uBe2mknURG4-unsplash.jpg"}
  
@@ -187,8 +207,7 @@ dir("apps/reactividad/", full.names = TRUE) |>
 . . .
 
 - Útil para la reutilización
-    - En lugar de copiar y pegar código, puede usar módulos.
-    - Se pueden empaquetar en paquetes
+    - En lugar de copiar y pegar código, puede usar módulos. Incorporar en paquetes
     - Esencial para administrar la complejidad del código en aplicaciones más grandes
 
 
@@ -281,6 +300,8 @@ el intercambio correspondiente.
 
 ## Beneficio?
 
+. . .
+
 ```{r, eval=FALSE, echo=TRUE}
 source("ruta/hacia/modulo.R")
 
@@ -307,7 +328,7 @@ dir("apps/modulos/", full.names = TRUE) |>
   purrr::walk(~ {cat(.x); cat("\n")})
 ```
 
-## Ejercicio
+## Ejercicio: Creando App, luego un módulo
 
 1. Considerando el data set `iris`, genere una aplicación que tenga un selector
 que liste las variables continuas y dado una variable realice un histograma.
@@ -326,13 +347,14 @@ seleccionada.
 
 Usar librerías de visualización Javascript en R.
 
-...
+. . .
 
 Los widgets se pueden incluir en documentos RMarkdown y aplicaciones web Shiny
 
-...
+. . .
 
-HTMLwidget pude ser una parte 
+HTMLwidgets puden ser una parte fundamental de una aplicación dado que
+muestran visualizaciones.
 
 ## HTMLWidgets, eso es todo?
 
@@ -341,10 +363,11 @@ No!
 ...
 <br>
 
-Los widg
+Los widget pueden utilizarse como inputs a través de eventos Javascript!
 
-
-
+::: aside
+Ejemplo [https://odes-chile.org/app/estaciones/](https://odes-chile.org/app/estaciones/).
+:::
 
 ## Revisar las siguientes apps
 
@@ -354,7 +377,7 @@ dir("apps/htmlwidgets/", full.names = TRUE) |>
   purrr::walk(~ {cat(.x); cat("\n")})
 ```
 
-## Ejercicio
+## Ejercicio: Haciendo más con los eventos
 
 1. Reutilice alguna app de la carpeta `htmlwidgets` para que al hacer click
 sobre un sismo, se escriban todos la información del sismo en la ui.
@@ -368,14 +391,22 @@ variable x, variable y. Utilice un proxy para no _rebibujar_ el gráfico.
 
 # HTML, CSS, JS { .bckgrnd background-image="imgs/valery-sysoev-p9OkL4yW3C8-unsplash.jpg"}  
 
-##  HTML, CSS, JS
+## HTML, CSS, JS
 
 Hola
+
 . . .
+
 Chao
 
+## Ejercicio: Implementando cosas
 
-# Eso! gracias un gustazo!
+1. Revise este link y en la primera app de htmlwidgets realice lo necesario para
+implementar [https://www.jumpingrivers.com/blog/improving-responsiveness-shiny-applications/](https://www.jumpingrivers.com/blog/improving-responsiveness-shiny-applications/).
+
+1. Implemente de diferentes formas dicha _feature_.
+
+# Eso! gracias! un gustazo!
 
 ## Créditos imágenes
 

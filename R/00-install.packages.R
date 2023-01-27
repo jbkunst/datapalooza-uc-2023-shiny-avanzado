@@ -6,5 +6,6 @@ install.packages(
     "DT",
     "highcharter",
     "plotly",
-    "datos")
+    "datos",
+    "reactlog")
 )
