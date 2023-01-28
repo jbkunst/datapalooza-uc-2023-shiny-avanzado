@@ -4,7 +4,7 @@ author: "<b style='color:white'>Joshua Kunst Fuentes @jbkunst</b>"
 format:
   revealjs:
     theme: [default, css/custom.scss]
-    transition: slide
+    transition: fade
     background-transition: fade
     navigation-mode: vertical
     # smaller: true
@@ -21,29 +21,33 @@ editor_options:
 
 ## Antes de Partir { background-image="imgs/background2.jpg"}
 
-- Respositorio: [https://github.com/jbkunst/datapalooza-uc-2023-shiny-avanzado](https://github.com/jbkunst/datapalooza-uc-2023-shiny-avanzado), para clonarlo en posit.cloud
+```{r}
+library(shiny)
+```
 
-- Presentación: [https://jkunst.com/datapalooza-uc-2023-shiny-avanzado/](https://jkunst.com/datapalooza-uc-2023-shiny-avanzado/)
+- Respositorio: [https://github.com/jbkunst/datapalooza-uc-2023-shiny-avanzado](https://github.com/jbkunst/datapalooza-uc-2023-shiny-avanzado), para clonarlo en [posit.cloud](posit.cloud).
 
-- Un repaso: [https://jkunst.com/shiny-visualizacion-de-datos-con-R/clase-01.html](https://jkunst.com/shiny-visualizacion-de-datos-con-R/clase-01.html)
+- Presentación: [https://jkunst.com/datapalooza-uc-2023-shiny-avanzado/](https://jkunst.com/datapalooza-uc-2023-shiny-avanzado/).
+
+- Un repaso: [https://jkunst.com/shiny-visualizacion-de-datos-con-R/clase-01.html](https://jkunst.com/shiny-visualizacion-de-datos-con-R/clase-01.html).
 
 ## Lo que veremos
 
 **Reactividad**: 
 
-  Expresiones reactivas, _Observers_ y Eventos
+  Expresiones reactivas, _Observers_ y Eventos.
   
 . . .  
 
 **Módulos**: 
 
-  Definición, utilidades, patrón de uso
+  Definición, utilidades, patrón de uso.
   
 . . .  
 
-**htmlwidgets**:
+**HTMLWidgets**:
 
-  Proxies y eventos
+  Proxies y eventos.
   
 . . .  
 
@@ -51,13 +55,13 @@ editor_options:
 
   Introduccion, definiciones, etc.
 
-## Dinámica
+## Como lo veremos
 
-- Definiciones y motivaciones
-- Revisión de ejemplos
-- Ejercicios! 
+- Definiciones y motivaciones.
+- Revisión de ejemplos.
+- Ejercicios!
 
-## Paquete que utilizaremos
+## Que paquetes utilizaremos
 
 ```{r, eval=FALSE, echo=TRUE}
 install.packages(
@@ -65,6 +69,7 @@ install.packages(
     "tidyverse", 
     "rvest",
     "leaflet",
+    "leaflet.minicharts",
     "DT",
     "highcharter",
     "plotly",
@@ -72,6 +77,19 @@ install.packages(
   )
 ```
 
+## Setup de PositCloud (ex Rstudio Cloud)
+
+<center>
+<iframe width="627" height="352" src="https://www.youtube.com/embed/B2PJQxRuMFw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</center>
+
+::: aside
+Replicar el repositorio https://github.com/jbkunst/datapalooza-uc-2023-shiny-avanzado.
+:::
+
+## Revisemos antres nuestro proyecto
+
+![](imgs/project.png){.absolute }
 
 # Reactividad { .bckgrnd background-image="imgs/reactivity-graph-00.png"}
 
@@ -85,7 +103,7 @@ No tenemos que darle un comando a una aplicación shiny para que se actualice. R
 
 . . .
 
-Si un `input` cambia, automáticamente actualizará `outputs` (expresiones reactivas u `observer`s) que dependan de el.
+Si un `input` cambia, automáticamente actualizará `output`(s) (expresiones reactivas u `observer`s) que dependan de dicho `input`(s).
 
 
 ::: aside
@@ -190,25 +208,25 @@ dir("apps/reactividad/", full.names = TRUE) |>
 El paquete `reactlog` pertmite registrar las acciones de una aplicación
 para conocer el flujo de la reactividad.
 
-1. Utilice alguna el script en `R/01-reactlog-example.R` y comente.
+1. Revise y ejecute el script `R/01-reactlog-example.R`. Comente.
 
 # Módulos { .bckgrnd background-image="imgs/guillaume-bolduc-uBe2mknURG4-unsplash.jpg"}
  
 ## Módulos
 
-- Un módulo es un componente autocontenido y compuesto de una aplicación Shiny
-    - Autocontenido como una función
-    - Se pueden combinar para hacer una aplicación
+- Un módulo es un componente autocontenido y compuesto de una aplicación Shiny.
+    - Autocontenido como una función.
+    - Se pueden combinar para hacer una aplicación.
     
 . . .
 
-- Tienen su propia interfaz de usuario y servidor (además de la interfaz de usuario y servidor de la **aplicación**)
+- Tienen su propia interfaz de usuario y servidor (además de la interfaz de usuario y servidor de la **aplicación**).
 
 . . .
 
-- Útil para la reutilización
-    - En lugar de copiar y pegar código, puede usar módulos. Incorporar en paquetes
-    - Esencial para administrar la complejidad del código en aplicaciones más grandes
+- Útil para la reutilización.
+    - En lugar de copiar y pegar código, puede usar módulos. Incorporar en paquetes.
+    - Esencial para administrar la complejidad del código en aplicaciones más grandes.
 
 
 ## Patrón de uso en UI: Antes {auto-animate=true}
@@ -289,14 +307,14 @@ Al cambiar a este flujo/framework de programación de aplicaciones shiny:
 
 <br/>
 Módulo UI:
-El cambio en `id`s es explícito. Cambiar unInput(`"id")` por `unInput(NS("id"))`.
+El cambio en `id`s es explícito. Cambiar `unInput("id")` por `unInput(NS("id"))`.
 Se puede separar para tener distintas ubicaciones (ver ejemplos).
 
 <br/>
 
 Modulo Server:
-La funcionalidad de implícita, uno _copia_ y _pega_, y el módulo hace
-el intercambio correspondiente.
+La funcionalidad es implícita, uno _copia_ y _pega_, y el módulo hace
+el intercambio correspondiente, `moduleServer`se encarga de todo.
 
 ## Beneficio?
 
@@ -349,7 +367,7 @@ Usar librerías de visualización Javascript en R.
 
 . . .
 
-Los widgets se pueden incluir en documentos RMarkdown y aplicaciones web Shiny
+Los widgets se pueden incluir en documentos RMarkdown y aplicaciones web Shiny.
 
 . . .
 
@@ -360,14 +378,25 @@ muestran visualizaciones.
 
 No!
 
-...
+. . .
+
 <br>
 
-Los widget pueden utilizarse como inputs a través de eventos Javascript!
+Los widget pueden utilizarse como `input`s a través de eventos Javascript!
 
-::: aside
-Ejemplo [https://odes-chile.org/app/estaciones/](https://odes-chile.org/app/estaciones/).
-:::
+Funcionan si se integran a la aplicación.
+
+. . .
+
+<br>
+
+Ejemplo 1 [https://jbkunst.shinyapps.io/02-proxy-functions/](https://jbkunst.shinyapps.io/02-proxy-functions/?showcase=0).
+
+<br>
+
+Ejemplo 2 [https://odes-chile.org/app/estaciones/](https://odes-chile.org/app/estaciones/).
+
+
 
 ## Revisar las siguientes apps
 
@@ -393,18 +422,92 @@ variable x, variable y. Utilice un proxy para no _rebibujar_ el gráfico.
 
 ## HTML, CSS, JS
 
-Hola
+HTML, CSS y JS son tres elementos (lenguajes?!) que conforman una aplicación web. 
+
+. . . 
+
+
+HTML (HyperText Markup Language) permite estructurar la informacion.
+[https://www.w3schools.com/html/html_examples.asp](https://www.w3schools.com/html/html_examples.asp)
 
 . . .
 
-Chao
+CSS (Cascading Style Sheets) para darle estilo a la informacion.
+[https://www.w3schools.com/css/css_examples.asp](https://www.w3schools.com/css/css_examples.asp)
+
+. . .
+
+
+JS (Javascript) para hacer interactividad con esa informacion.
+[https://www.w3schools.com/js/js_examples.asp](https://www.w3schools.com/js/js_examples.asp)
+
+. . . 
+
+<br>
+
+Aplicaciones shiny lo *abstrae* y hace funcionar todo _mágicamente_.
+
+
+## HTML en Shiny
+
+```{r, eval=TRUE, echo=TRUE, results='hide'}
+ui <- fluidPage(
+  actionButton("boton", "Clickéame")
+)
+
+ui
+```
+
+<br>
+
+```{r, eval=TRUE}
+cat(as.character(ui))
+```
+
+
+## HTML usando `tags`
+
+```{r, eval=TRUE, echo=TRUE, results='hide'}
+ui2 <- tags$div(class = "container-fluid",
+  tags$button("Clickéame", id="boton", type="button", class="btn btn-default action-button")
+  )
+
+ui2
+```
+
+<br>
+
+```{r, eval=TRUE}
+cat(as.character(ui2))
+```
+
+## HTML en bruto
+
+```{r, eval=TRUE, echo=TRUE, results='hide'}
+ui3 <- HTML('<div class="container-fluid">
+  <button id="boton" type="button" class="btn btn-default action-button">Clickéame</button>
+</div>')
+
+ui3
+```
+
+<br>
+
+```{r, eval=TRUE}
+cat(as.character(ui3))
+```
+
+## Ejercicio: HTML
+
+Comprobar si `ui`, `ui2`, y `ui3` son iguales o similares.
+
+<br>
+
 
 ## Ejercicio: Implementando cosas
 
 1. Revise este link y en la primera app de htmlwidgets realice lo necesario para
-implementar [https://www.jumpingrivers.com/blog/improving-responsiveness-shiny-applications/](https://www.jumpingrivers.com/blog/improving-responsiveness-shiny-applications/).
-
-1. Implemente de diferentes formas dicha _feature_.
+implementar [https://www.jumpingrivers.com/blog/improving-responsiveness-shiny-applications/](https://www.jumpingrivers.com/blog/improving-responsiveness-shiny-applications/). Implemente de diferentes formas dicha _feature_.
 
 # Eso! gracias! un gustazo!
 
@@ -418,6 +521,8 @@ Foto de <a href="https://unsplash.com/@guibolduc?utm_source=unsplash&utm_medium=
 Foto de <a href="https://unsplash.com/@valerysysoev?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Valery Sysoev</a> en <a href="https://unsplash.com/es/fotos/p9OkL4yW3C8?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
   
 Foto de <a href="https://unsplash.com/@jannerboy62?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Nick Fewings</a> en <a href="https://unsplash.com/es/fotos/XqOBKnxDSfE?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+  
+Foto de <a href="https://unsplash.com/@patrickperkins?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Patrick Perkins</a> en <a href="https://unsplash.com/es/fotos/Pg44v2M2S6k?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
   
   
   

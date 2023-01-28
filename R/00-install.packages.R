@@ -3,6 +3,7 @@ install.packages(
     "tidyverse", 
     "rvest",
     "leaflet",
+    "leaflet.minicharts",
     "DT",
     "highcharter",
     "plotly",
